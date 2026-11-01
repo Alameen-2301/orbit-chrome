@@ -1,0 +1,15 @@
+node_modules/
+.git/
+.env
+.env.*
+.sitebridge/
+state.json
+runtime.json
+credentials*.json
+sitebridge-*.json
+*.log
+*.zip
+__pycache__/
+test-results/
+playwright-report/
+.DS_Store

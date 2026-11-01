@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbit — Your browser, with a helping hand</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="sidepanel.js"></script>
+</head>
+<body>
+  <svg class="symbol-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m6 12 6-6 6 6M12 6v13"/></symbol>
+    <symbol id="i-page" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="m4 20 4-1L20 7a2.8 2.8 0 0 0-4-4L4 15l-1 6ZM13 6l5 5"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-2.5 5.5L8 16l2.5-5.5Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6ZM8 12l3 3 5-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m9 15 6-6M8 16l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0M16 8l1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0" transform="translate(0 0) scale(.95)"/></symbol>
+  </defs></svg>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="#" aria-label="Orbit home"><span class="brand-mark"><span></span></span><span>orbit<span class="brand-dot">.</span></span></a>
+      <div class="header-actions">
+        <button id="new-chat" class="icon-button" title="New conversation" aria-label="New conversation"><svg><use href="#i-plus"/></svg></button>
+        <button id="open-settings" class="icon-button" title="Connections and preferences" aria-label="Connections and preferences"><svg><use href="#i-settings"/></svg></button>
+      </div>
+    </header>
+
+    <div class="connection-row">
+      <span class="connection-indicator" id="connection-indicator"></span>
+      <select id="connection-select" aria-label="Active AI connection"><option value="">Connect a model</option></select>
+      <button id="connect-shortcut" class="text-button">Set up <span aria-hidden="true">↗</span></button>
+    </div>
+
+    <nav class="view-tabs" aria-label="Panel views">
+      <button id="chat-tab" class="view-tab active" aria-selected="true">Assistant</button>
+      <button id="activity-tab" class="view-tab" aria-selected="false">Activity <span id="activity-count">0</span></button>
+      <span class="review-badge"><svg><use href="#i-shield"/></svg> You’re in control</span>
+    </nav>
+
+    <main id="chat-view" class="main-view">
+      <div id="welcome" class="welcome">
+        <div class="eyebrow"><span></span> A HELPING HAND, IN EVERY TAB</div>
+        <div class="hero-art" aria-hidden="true"><div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div><span class="art-core">✳</span><span class="art-star">✦</span><span class="art-dot"></span></div>
+        <h1>Your browser.<br>A little more<br><em>capable.</em></h1>
+        <p class="welcome-copy">Read, write, and get things done.<br>Your favorite AI, right where you work.</p>
+        <div class="task-cards">
+          <button class="task-card" data-prompt="Summarize this page. Give me the main points and anything that needs my attention."><span class="task-icon lavender"><svg><use href="#i-page"/></svg></span><span><strong>Make sense of this page</strong><small>Summaries, answers, and key details</small></span><svg class="card-arrow"><use href="#i-arrow"/></svg></button>
+          <button class="task-card" data-prompt="Help me write something on this page. Read the available fields and ask me what I want to say before editing."><span class="task-icon peach"><svg><use href="#i-pen"/></svg></span><span><strong>Find the right words</strong><small>Draft, rewrite, and fill things in</small></span><svg class="card-arrow"><use href="#i-arrow"/></svg></button>
+          <button class="task-card" data-prompt="Help me complete a browser task. Ask me what I want to accomplish, then work through it with my approval."><span class="task-icon mint"><svg><use href="#i-compass"/></svg></span><span><strong>Take the next step</strong><small>Open tabs and work through a task</small></span><svg class="card-arrow"><use href="#i-arrow"/></svg></button>
+        </div>
+        <div class="bring-key"><span class="key-symbol">⌘</span><div><strong>Bring your own AI.</strong><span>Connect an API key to get started.</span></div><button id="welcome-connect" class="round-button" aria-label="Connect an AI provider"><svg><use href="#i-arrow"/></svg></button></div>
+      </div>
+      <div id="messages" class="messages" role="log" aria-label="Conversation" aria-live="polite"></div>
+    </main>
+
+    <section id="activity-view" class="main-view activity-view" hidden aria-label="Browser activity">
+      <div class="section-intro"><span class="eyebrow">A CLEAR TRAIL</span><h2>Every step, in view.</h2><p>See what Orbit reads, proposes, and completes during this conversation.</p></div>
+      <div id="activity-list"></div><p id="activity-empty" class="empty-state">Your activity will appear here.</p>
+    </section>
+
+    <footer class="composer-area">
+      <div class="context-row"><label class="context-label"><input id="attach-page" type="checkbox" checked><svg><use href="#i-page"/></svg><span id="page-name">Current page</span></label><span id="page-state">Not attached yet</span></div>
+      <form id="composer" class="composer">
+        <label for="prompt" class="sr-only">What would you like help with?</label>
+        <textarea id="prompt" placeholder="What can I help you do?" rows="2" maxlength="12000"></textarea>
+        <div class="composer-bottom"><div class="mode-toggle" role="group" aria-label="Assistant mode"><button type="button" id="mode-ask" aria-pressed="false">Ask</button><button type="button" id="mode-assist" class="active" aria-pressed="true">Assist <span>↗</span></button></div><span id="composer-hint">Enter to send</span><button id="send" type="submit" class="send-button" aria-label="Send message"><svg><use href="#i-send"/></svg></button><button id="stop" type="button" class="stop-button" hidden>Stop</button></div>
+      </form>
+      <div id="status" class="status" role="status">Your key. Your model. Every action reviewed.</div>
+    </footer>
+  </div>
+
+  <dialog id="settings-dialog" class="settings-dialog">
+    <div class="dialog-header"><div><span class="eyebrow">MAKE IT YOURS</span><h2>Connections</h2></div><button id="close-settings" class="icon-button" aria-label="Close settings"><svg><use href="#i-close"/></svg></button></div>
+    <div class="settings-scroll">
+      <p class="settings-intro">Connect a text or chat model. Requests go directly from this extension to the endpoint you choose.</p>
+      <div class="profile-actions"><select id="edit-profile" aria-label="Saved connection"><option value="">New connection</option></select><button id="add-profile" class="icon-button" aria-label="Add connection"><svg><use href="#i-plus"/></svg></button></div>
+      <form id="settings-form">
+        <label class="field">Provider<select id="provider"></select></label>
+        <label class="field">API key<div class="password-field"><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key"><button type="button" id="toggle-key" class="text-button">Show</button></div></label>
+        <label class="check-field"><input id="remember-key" type="checkbox"><span>Remember credentials on this device<small>Off: credentials last for this browser session. On: stored locally, without encryption. Never synced.</small></span></label>
+        <div class="field"><label for="model">Model ID</label><div class="model-field"><input id="model" list="model-catalog" placeholder="Choose or type an exact model ID" autocomplete="off" spellcheck="false"><button id="discover-models" type="button" class="secondary-button">Find models</button></div><datalist id="model-catalog"></datalist><small id="catalog-note">Load the provider’s catalog, or enter a model ID.</small></div>
+        <label class="field">Connection name<input id="profile-name" placeholder="e.g. My daily assistant" maxlength="80"></label>
+        <details class="advanced"><summary>Endpoint & advanced options</summary><div class="advanced-content">
+          <label class="field">API format<select id="protocol"><option value="responses">OpenAI Responses</option><option value="chat">OpenAI-compatible Chat Completions</option><option value="anthropic">Anthropic Messages</option><option value="gemini">Google Gemini generateContent</option><option value="ollama">Ollama native chat</option></select></label>
+          <label class="field">API base URL<input id="base-url" type="url" placeholder="https://api.example.com/v1" spellcheck="false"><small>Use the API root, including /v1 if required. HTTP is allowed for localhost only.</small></label>
+          <label class="field">Custom request path <span class="optional">optional</span><input id="request-path" placeholder="e.g. chat/completions?api-version=…" spellcheck="false"></label>
+          <label class="field">Authentication<select id="auth-mode"><option value="auto">Automatic for this API format</option><option value="bearer">Authorization: Bearer</option><option value="api-key">api-key header (e.g. Azure)</option><option value="x-api-key">x-api-key header</option><option value="none">No authentication</option></select></label>
+          <label class="field">Custom headers <span class="optional">JSON object</span><textarea id="extra-headers" rows="3" placeholder='{"anthropic-workspace-id":"wrkspc_…"}' spellcheck="false"></textarea><small>Stored using the same session/device choice as your key.</small></label>
+          <label class="field">Request options <span class="optional">JSON object</span><textarea id="extra-body" rows="3" placeholder='{"max_tokens":4096}' spellcheck="false"></textarea><small>For model-specific options, such as token limits or reasoning settings.</small></label>
+        </div></details>
+        <div class="settings-buttons"><button type="button" id="test-connection" class="secondary-button">Test connection</button><button type="submit" id="save-profile" class="primary-button">Save connection <span>↗</span></button></div>
+        <small class="test-note">Testing sends a short message to your model and may use API credits.</small>
+        <div id="settings-status" class="settings-status" role="status"></div>
+      </form>
+      <div class="preferences"><h3>Working preferences</h3><label class="field inline-field">Maximum steps per task<input id="max-steps" type="number" min="1" max="30" value="16"></label><label class="field inline-field">Page text limit (characters)<input id="page-limit" type="number" min="1000" max="40000" step="1000" value="18000"></label><p>Ask can read. Assist can propose changes. Every change needs your approval. Password and payment fields are excluded. Visible page text and conversation context are sent to your chosen provider when used.</p><p>Chat and activity stay in this browser session. Closing the panel stops the task; completed changes remain.</p><button id="forget-profile" class="danger-text" type="button">Delete this connection</button><button id="clear-session" class="text-button" type="button">Clear chat and activity</button></div>
+      <div class="settings-footnote"><svg><use href="#i-shield"/></svg><span>No Orbit server. No analytics. No remote code.</span></div>
+    </div>
+  </dialog>
+
+  <dialog id="approval-dialog" class="approval-dialog">
+    <div class="approval-icon"><svg><use href="#i-shield"/></svg></div><span class="eyebrow">YOUR APPROVAL, FIRST</span><h2 id="approval-title">Review this step</h2><p id="approval-description"></p><div id="approval-details" class="approval-details"></div><p id="approval-notice" class="approval-notice"></p><div class="approval-buttons"><button id="decline-action" class="secondary-button">Decline</button><button id="approve-action" class="primary-button">Approve once <svg><use href="#i-check"/></svg></button></div><small>Approvals expire after two minutes.</small>
+  </dialog>
+</body>
+</html>

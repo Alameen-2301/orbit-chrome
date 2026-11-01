@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Orbit — Your AI browser assistant",
+  "short_name": "Orbit",
+  "version": "1.0.0",
+  "minimum_chrome_version": "116",
+  "description": "Read, write, and get things done in your browser with your own AI API key. Review every browser action before it runs.",
+  "permissions": ["activeTab", "scripting", "storage", "tabs", "sidePanel"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "action": { "default_title": "Open Orbit", "default_icon": {"16": "assets/icon16.png", "32": "assets/icon32.png", "48": "assets/icon48.png", "128": "assets/icon128.png"} },
+  "icons": {"16": "assets/icon16.png", "32": "assets/icon32.png", "48": "assets/icon48.png", "128": "assets/icon128.png"},
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; connect-src https: http:"
+  }
+}
